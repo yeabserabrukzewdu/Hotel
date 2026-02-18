@@ -1,0 +1,7 @@
+{
+  "name": "L.A. Hotel & Spa Wellness Center",
+  "description": "A sophisticated, multi-language fitness and spa management system for a premier Ethiopian luxury hotel, featuring an AI-powered concierge and an advanced administrative dashboard.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
