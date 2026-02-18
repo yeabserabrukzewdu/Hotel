@@ -8,8 +8,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script>
-    // Polyfill process for browser environments to prevent crashes on module load
-    window.process = window.process || { env: {} };
+    // Global polyfill for 'process' to avoid reference errors in browser-based ESM
+    window.process = {
+      env: {
+        NODE_ENV: 'production',
+        API_KEY: '' // Will be injected by the environment
+      },
+      nextTick: (fn) => setTimeout(fn, 0),
+      listeners: () => [],
+      on: () => {},
+      removeListener: () => {}
+    };
   </script>
   <style>
     :root {
@@ -19,6 +28,7 @@
     body {
       font-family: 'Inter', sans-serif;
       scroll-behavior: smooth;
+      background-color: #f8fafc;
     }
     h1, h2, h3, h4, .font-serif {
       font-family: 'Playfair Display', serif;
@@ -33,42 +43,13 @@
       background-color: var(--slate-deep);
     }
     
-    /* Advanced Animations */
-    @keyframes kenburns {
-      0% { transform: scale(1) translate(0, 0); }
-      50% { transform: scale(1.1) translate(-1%, -1%); }
-      100% { transform: scale(1) translate(0, 0); }
-    }
-    
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
-    @keyframes revealLine {
-      from { width: 0; }
-      to { width: 100%; }
-    }
 
     .reveal-anim {
       animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .hover-gold-border {
-      position: relative;
-    }
-    .hover-gold-border::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 1px;
-      background: var(--gold);
-      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .hover-gold-border:hover::after {
-      width: 100%;
     }
 
     /* Custom Scrollbar */
@@ -86,21 +67,24 @@
       background: var(--gold);
     }
   </style>
-<script type="importmap">
+  <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.28.0?external=react,react-dom",
+    "recharts": "https://esm.sh/recharts@2.12.7?external=react,react-dom",
+    "lucide-react": "https://esm.sh/lucide-react@0.473.0?external=react",
+    "@google/genai": "https://esm.sh/@google/genai@1.41.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "recharts": "https://esm.sh/recharts@2.12.7",
-    "lucide-react": "https://esm.sh/lucide-react@0.473.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0"
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
 </head>
 <body class="bg-white text-slate-900 m-0 p-0 overflow-x-hidden">
   <div id="root"></div>
+  <script type="module" src="./index.tsx"></script>
 </body>
 </html>
